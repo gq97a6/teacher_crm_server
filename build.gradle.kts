@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.2.21"
     kotlin("plugin.allopen") version "2.2.21"
+    kotlin("plugin.serialization") version "2.2.0"
     id("io.quarkus") version "3.29.2"
 }
 
@@ -18,21 +19,24 @@ dependencies {
     implementation("io.vertx:vertx-lang-kotlin-coroutines:4.5.0")
     implementation("io.smallrye.reactive:mutiny-kotlin:1.4.0")
 
-    //Database client
-    //implementation("io.quarkus:quarkus-mongodb-client")
+    //ORM
+    implementation("io.quarkus:quarkus-hibernate-orm-panache-kotlin")
+    implementation("io.quarkus:quarkus-hibernate-orm")
+    implementation("io.quarkus:quarkus-jdbc-mariadb")
 
     //JWT
     implementation("io.quarkus:quarkus-smallrye-jwt")
     implementation("io.quarkus:quarkus-smallrye-jwt-build")
 
-    //Password hashing
-    implementation("org.mindrot:jbcrypt:0.4")
+    //Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 
     //Other
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.9")
 
     //Shared
-    implementation("org.labcluster.crm:shared:1.0.14-SNAPSHOT")
+    implementation("org.labcluster.crm:shared:2.0.6")
 
     //Tests
     testImplementation("io.quarkus:quarkus-junit5")
@@ -63,5 +67,9 @@ kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
         javaParameters = true
+        freeCompilerArgs.add("-opt-in=kotlin.time.ExperimentalTime")
+        freeCompilerArgs.add("-opt-in=kotlin.uuid.ExperimentalUuidApi")
+        freeCompilerArgs.add("-opt-in=kotlinx.serialization.ExperimentalSerializationApi")
+        freeCompilerArgs.add("-opt-in=kotlinx.coroutines.DelicateCoroutinesApi")
     }
 }
