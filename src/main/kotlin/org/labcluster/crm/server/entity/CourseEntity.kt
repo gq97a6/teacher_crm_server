@@ -1,12 +1,7 @@
 package org.labcluster.crm.server.entity
 
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepository
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.JoinTable
-import jakarta.persistence.ManyToMany
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.labcluster.crm.shared.model.Course
 import org.labcluster.crm.shared.model.Topic
 import kotlin.uuid.Uuid
