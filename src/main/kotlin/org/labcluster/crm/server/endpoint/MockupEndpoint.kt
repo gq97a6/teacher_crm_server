@@ -2,42 +2,40 @@ package org.labcluster.crm.server.endpoint
 
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.Path
+import jakarta.ws.rs.PathParam
 import jakarta.ws.rs.core.Response
 import org.labcluster.crm.shared.Mock
 
-//@Path("/address/{code}")
-//@PathParam("code") code: String
-
-@Path("/mock")
+@Path("/api")
 class MockupEndpoint {
 
     @GET
-    @Path("/courses")
-    suspend fun courses(): Response {
-        return Response.ok(Mock.courses).build()
+    @Path("/lesson/teacherTimetable/{teacherUuid}")
+    fun teacherTimetable(@PathParam("teacherUuid") teacherUuid: String): Response {
+        return Response.ok(Mock.lessons.shuffled()).build()
     }
 
     @GET
-    @Path("/lessons")
-    suspend fun lessons(): Response {
-        return Response.ok(Mock.lessons).build()
+    @Path("/lesson/groupTimetable/{teacherUuid}")
+    fun groupTimetable(@PathParam("teacherUuid") teacherUuid: String): Response {
+        return Response.ok(Mock.lessons.shuffled().take(10)).build()
     }
 
     @GET
-    @Path("/students")
-    suspend fun students(): Response {
-        return Response.ok(Mock.students).build()
+    @Path("/lesson/groupNextLesson/{groupUuid}")
+    fun groupNextLesson(@PathParam("groupUuid") groupUuid: String): Response {
+        return Response.ok(Mock.topics.random().apply { this.uuid = uuid }).build()
     }
 
     @GET
-    @Path("/teachers")
-    suspend fun teachers(): Response {
-        return Response.ok(Mock.teachers).build()
+    @Path("/group/taughtBy/{teacherUuid}")
+    fun taughtBy(@PathParam("teacherUuid") teacherUuid: String): Response {
+        return Response.ok(Mock.groups.shuffled()).build()
     }
 
     @GET
-    @Path("/topics")
-    suspend fun topics(): Response {
-        return Response.ok(Mock.topics).build()
+    @Path("/health")
+    suspend fun health(): Response {
+        return Response.ok().build()
     }
 }
