@@ -16,28 +16,28 @@ class EntityEndpoint {
     @GET
     @Path("/lesson/teacherTimetable/{uuid}")
     @Transactional
-    fun getTeacherTimetable(@PathParam("uuid") uuid: String): Response {
+    suspend fun getTeacherTimetable(@PathParam("uuid") uuid: String): Response {
         return Response.ok(LessonRepo.getTeacherTimetable(uuid)).build()
     }
 
     @GET
     @Path("/lesson/groupTimetable/{uuid}")
     @Transactional
-    fun getGroupTimetable(@PathParam("uuid") uuid: String): Response {
+    suspend fun getGroupTimetable(@PathParam("uuid") uuid: String): Response {
         return Response.ok(LessonRepo.getGroupTimetable(uuid)).build()
     }
 
     @GET
     @Path("/lesson/groupNextLesson/{uuid}")
     @Transactional
-    fun getGroupNextLesson(@PathParam("uuid") uuid: String): Response {
+    suspend fun getGroupNextLesson(@PathParam("uuid") uuid: String): Response {
         return Response.ok(LessonRepo.getGroupsNextLesson(uuid)).build()
     }
 
     @GET
     @Path("/group/taughtBy/{uuid}")
     @Transactional
-    fun getTaughtBy(@PathParam("uuid") uuid: String): Response {
+    suspend fun getTaughtBy(@PathParam("uuid") uuid: String): Response {
         return Response.ok(GroupRepo.getTaughtBy(uuid)).build()
     }
 
