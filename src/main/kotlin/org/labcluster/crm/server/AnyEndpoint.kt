@@ -1,5 +1,6 @@
-package org.labcluster.crm.server.endpoint
+package org.labcluster.crm.server
 
+import jakarta.transaction.Transactional
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.PUT
 import jakarta.ws.rs.Path
@@ -35,17 +36,19 @@ class AnyEndpoint {
         return Response.ok(Mock.groups.shuffled()).build()
     }
 
-    @GET
-    @Path("/health")
-    suspend fun getHealth(): Response {
-        return Response.ok().build()
-    }
-
     @PUT
     @Path("/lesson/{lessonUuid}")
+    @Transactional
     suspend fun putLesson(lesson: LessonEntity, @PathParam("lessonUuid") lessonUuid: String): Response {
         //Validate if uuids match
         if (lesson.uuid != lessonUuid) return Response.status(400).build()
+        Repository.lesson.persist(lesson)
+        return Response.ok().build()
+    }
+
+    @GET
+    @Path("/health")
+    suspend fun getHealth(): Response {
         return Response.ok().build()
     }
 }
