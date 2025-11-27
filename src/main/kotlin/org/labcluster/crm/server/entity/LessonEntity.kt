@@ -1,41 +1,42 @@
 package org.labcluster.crm.server.entity
 
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepository
 import jakarta.persistence.*
-import org.labcluster.crm.shared.model.*
+import kotlinx.serialization.Serializable
+import org.labcluster.crm.shared.model.Lesson
 import kotlin.uuid.Uuid
 
 @Entity
 @Table(name = "lessons")
-class LessonEntity : Lesson() {
-
-    companion object : PanacheRepository<LessonEntity> {
-        fun findByUuid(uuid: String) = find("uuid", uuid).firstResult()
-    }
-
+@Serializable
+class LessonEntity(
     @Id
-    override var uuid: String = Uuid.random().toString()
-    override var epochStart = 0L
-    override var epochBegin = null as Long?
-    override var duration = 0
+    var uuid: String = Uuid.random().toString(),
+    var epochStart: Long = 0L,
+    var epochBegin: Long? = null,
+    var duration: Int = 0,
 
-    @ManyToOne(targetEntity = TopicEntity::class)
-    override var topic = null as Topic?
+    @ManyToOne
+    var topic: TopicEntity? = null,
 
-    @ManyToOne(targetEntity = CourseEntity::class)
-    override var course = null as Course?
+    @ManyToOne
+    var course: CourseEntity? = null,
 
-    @ManyToOne(targetEntity = TeacherEntity::class)
-    override var teacher1 = null as Teacher?
+    @ManyToOne
+    var teacher1: TeacherEntity? = null,
 
-    @ManyToOne(targetEntity = TeacherEntity::class)
-    override var teacher2 = null as Teacher?
+    @ManyToOne
+    var teacher2: TeacherEntity? = null,
 
-    @JoinTable(name = "lesson_student")
-    @ManyToMany(targetEntity = StudentEntity::class)
-    override var students = mutableListOf<Student>()
+    @JoinTable(
+        name = "lesson_student",
+        joinColumns = [JoinColumn(name = "lesson_id")],
+        inverseJoinColumns = [JoinColumn(name = "student_id")]
+    )
+    @ManyToMany
+    var students: MutableList<StudentEntity> = mutableListOf(),
 
     @ElementCollection
-    @CollectionTable(name = "lesson_attendance")
-    override var attendance = mutableListOf<String>()
-}
+    @CollectionTable(name = "lesson_attendance", joinColumns = [JoinColumn(name = "lesson_id")])
+    @Column(name = "student_uuid")
+    var attendance: MutableList<String> = mutableListOf()
+) : AnyEntity<Lesson>()
