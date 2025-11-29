@@ -15,7 +15,7 @@ class GroupEntity(
     var timeEpoch: Long = 0L,
     var intervalDays: Int = 0,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     var teacher: TeacherEntity? = null,
 
     @JoinTable(
@@ -23,6 +23,6 @@ class GroupEntity(
         joinColumns = [JoinColumn(name = "group_id")],
         inverseJoinColumns = [JoinColumn(name = "student_id")]
     )
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     var students: MutableList<StudentEntity> = mutableListOf(),
 ) : AnyEntity<Group>()

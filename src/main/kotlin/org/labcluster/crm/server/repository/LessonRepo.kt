@@ -9,12 +9,12 @@ object LessonRepo : PanacheRepository<LessonEntity> {
     fun getTeacherTimetable(uuid: String) = find("teacher1.uuid", uuid).list()
 
     fun getGroupsNextLesson(uuid: String): LessonEntity? {
-        val now = Clock.System.now().epochSeconds
-        return getGroupTimetable(uuid).filter { it.epochStart > now }.minByOrNull { it.epochStart }
+        return getGroupTimetable(uuid).minByOrNull { it.epochStart }
     }
 
     fun getGroupTimetable(uuid: String): List<LessonEntity> {
-        val ids = GroupLessonRepo.find("groupUuid", uuid).list()
-        return list("id in ?1", ids)
+        val uuids = GroupLessonRepo.find("groupUuid", uuid).list().map { it.lessonUuid }
+        val now = Clock.System.now().epochSeconds
+        return list("uuid in ?1", uuids).filter { it.epochStart > now }
     }
 }

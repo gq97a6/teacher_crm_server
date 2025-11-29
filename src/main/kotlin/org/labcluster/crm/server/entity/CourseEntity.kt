@@ -18,6 +18,6 @@ class CourseEntity(
         joinColumns = [JoinColumn(name = "course_id")],
         inverseJoinColumns = [JoinColumn(name = "topic_id")]
     )
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     var topics: MutableList<TopicEntity> = mutableListOf(),
 ) : AnyEntity<Course>()

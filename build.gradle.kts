@@ -36,11 +36,12 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.9")
 
     //Shared
-    implementation("org.labcluster.crm:shared:2.0.6")
+    implementation("org.labcluster.crm:shared:5.0.0")
 
     //Tests
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
 }
 
 group = "org.labcluster.crm"
@@ -73,3 +74,5 @@ kotlin {
         freeCompilerArgs.add("-opt-in=kotlinx.coroutines.DelicateCoroutinesApi")
     }
 }
+
+//tasks.test { useJUnitPlatform { excludeTags("manual") } }

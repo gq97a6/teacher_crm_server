@@ -15,16 +15,16 @@ class LessonEntity(
     var epochBegin: Long? = null,
     var duration: Int = 0,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     var topic: TopicEntity? = null,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     var course: CourseEntity? = null,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     var teacher1: TeacherEntity? = null,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     var teacher2: TeacherEntity? = null,
 
     @JoinTable(
@@ -32,10 +32,10 @@ class LessonEntity(
         joinColumns = [JoinColumn(name = "lesson_id")],
         inverseJoinColumns = [JoinColumn(name = "student_id")]
     )
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     var students: MutableList<StudentEntity> = mutableListOf(),
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "lesson_attendance", joinColumns = [JoinColumn(name = "lesson_id")])
     @Column(name = "student_uuid")
     var attendance: MutableList<String> = mutableListOf()
