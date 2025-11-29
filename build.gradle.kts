@@ -36,7 +36,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.9")
 
     //Shared
-    implementation("org.labcluster.crm:shared:6.0.0")
+    implementation("org.labcluster.crm:shared:7.0.0")
 
     //Tests
     testImplementation("io.quarkus:quarkus-junit5")
