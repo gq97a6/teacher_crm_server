@@ -22,7 +22,7 @@ class EntityEndpoint {
     @Path("/lesson/teacherTimetable/{uuid}")
     @Transactional
     fun getTeacherTimetable(@PathParam("uuid") uuid: String): Response {
-        return Response.ok(LessonRepo.getTeacherTimetable(uuid)).build()
+        return Response.ok(LessonRepo.getTeacherTimetable(uuid).sortedBy { it.epochStart }).build()
     }
 
     @GET
