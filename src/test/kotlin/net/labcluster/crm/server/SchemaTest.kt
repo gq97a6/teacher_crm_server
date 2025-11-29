@@ -36,18 +36,9 @@ class SchemaTest {
         mock.groups.forEach { GroupRepo.persist(it.toEntity()) }
         GroupRepo.flush()
 
-        insertGroupLesson(mock)
-    }
-
-    @Transactional
-    fun insertGroupLesson(mock: SharedMock) {
-        val manager = GroupLessonRepo.getEntityManager()
-
-        mock.groupLessons.forEach { (groupId, lessons) ->
+        mock.groupLessons.forEach { (groupUuid, lessons) ->
             lessons.forEach { lesson ->
-                manager.merge(GroupLessonEntity(groupId, lesson.uuid))
-                manager.flush()
-                manager.clear()
+                GroupLessonRepo.persist(GroupLessonEntity(groupUuid = groupUuid, lessonUuid = lesson.uuid))
             }
         }
     }
